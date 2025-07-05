@@ -1,0 +1,18 @@
+แนะนำให้ใช้ src จาก ghost เอามาโมหรือปรับตามแบบที่คุณต้องการดีกว่า (https://github.com/AHXR/ghost) แนวทางที่ผมพอแนะนำได้คือ
+
+1. ปรับเปลี่ยนการเข้ารหัสข้อมูล ปรับจาก substitution ไปเป็น AES-GCM หรือ ChaCha20-Poly1305
+2. ถ้าอยากให้กดเนียน ๆ เสริมระบบ Certificate-pinning เข้าไป โดยการใช้ HTTPS ผ่าน WinINet หรือ WinHTTP แล้วตรวจใบรับรองจากเซิร์ฟเวอร์
+3. ใช้ reflective DLL injection ฝังโค้ดเข้า process อื่น
+4. สร้าง สร้าง Scheduled Task ผ่าน COM API, ใช้ COM automation ใส่โค้ด AutoStart ไว้ใน Task Scheduler
+5. แยก module เช่น keylogger, file uploader และ เขียนให้โหลด/อัปเกรดโมดูลแยกส่วนจาก server
+6. ใช้ Windows Hook แบบ Low-Level เพื่อเก็บ keystroke
+7. ตรวจหา debugger (IsDebuggerPresent, CheckRemoteDebuggerPresent)
+
+วิธีคือ
+
+1. เข้าไปที่ _src ดูไฟล์ zombie.cpp, server.cpp, โฟลเดอร์ _build ศึกษาการ build
+2. เพิ่ม dependency เช่น OpenSSL หรือ mbed‑tls ใน _build
+3. เลือกฟีเจอร์แรกที่สนใจ เช่น AES encryption หรือ Keylogger แล้วเขียนลงในโค้ดเดิม
+4. ทดสอบใน VM แบบ isolated และติดตั้ง network interception (ด้วย Wireshark) เพื่อวิเคราะห์พฤติกรรม
+
+ปล. เพราะถ้าคุณไปจ้างทำ ของพวกนี้มีราคาสูงแน่นอน โดยเฉพาะมัลแวร์ประเภทโทรจันหรือสปายแวร์ แต่ถ้าจะหาคนจ้างทำจริง ๆ แนะนำลองหาเว็บในทอร์บราวเซอร์ครับ คุณจะเจอทุกอย่างที่คุณหา มีมัลแวร์ทุกประเภท และมีคนเขียนไว้ขายอยู่ หาในนี้ยังไงก็ยาก แต่เตรียมเงินไว้หน่อยก็ดีครับ
